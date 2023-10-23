@@ -1,0 +1,10 @@
+input[type='text'],
+input[type='number'],
+select {
+  border: 2px solid rgb(17 24 39);
+  border-radius: 4px;
+}
+
+input[type='number'] {
+  text-align: end;
+}

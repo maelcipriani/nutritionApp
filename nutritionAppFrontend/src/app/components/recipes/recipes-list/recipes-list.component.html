@@ -1,0 +1,13 @@
+<div class="recipes-grid gap-6">
+  <div
+    *ngFor="let recipe of recipes"
+    class="rounded overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out"
+  >
+    <app-recipe-card
+      [recipe]="recipe"
+      [canLike]="canLike"
+      [isLiked]="canLike && selection?.recipes | isInFilteredArray: recipe"
+      (updateSelection)="emitUpdateSelection(recipe)"
+    />
+  </div>
+</div>

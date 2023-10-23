@@ -1,0 +1,124 @@
+<div class="w-full flex justify-between items-center mb-8">
+  <i
+    matTooltip="Toutes les valeurs nutritionnelles sont indiquées pour 100g"
+    class="fa-solid fa-circle-info text-gray-800 text-2xl"
+  ></i>
+  <div>
+    <button
+      *ngIf="!creatingItem()"
+      mat-raised-button
+      color="primary"
+      class="rounded-full"
+      (click)="creatingItem.set(true)"
+    >
+      Ajouter un ingrédient
+    </button>
+    <button
+      *ngIf="creatingItem()"
+      mat-raised-button
+      color="warn"
+      class="rounded-full"
+      (click)="creatingItem.set(false)"
+    >
+      Annuler
+    </button>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-20">
+  <div
+    *ngIf="creatingItem()"
+    class="max-w-sm w-full flex flex-col mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
+  >
+    <form [formGroup]="itemForm">
+      <div class="flex flex-col gap-2 p-2">
+        <div class="flex-1 flex flex-col">
+          <span>Nom</span>
+          <input formControlName="name" type="text" />
+        </div>
+        <div class="flex-1 flex flex-col">
+          <span>Image</span>
+          <input formControlName="image" type="file" class="border-none" (change)="onFileSelected($event)" />
+        </div>
+        <div class="flex gap-4 justify-between">
+          <div class="flex flex-col w-2/3">
+            <span>Prix</span>
+            <span class="text-gray-900 font-bold flex items-center gap-1">
+              <input formControlName="price" type="number" class="w-full" />
+              €
+            </span>
+          </div>
+          <div class="flex flex-col w-1/3">
+            <span>Type</span>
+            <select formControlName="type" name="type">
+              <option [value]="ItemType.PORTION">Portion</option>
+              <option [value]="ItemType.WEIGHT">Poids</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 justify-between p-2 border-t border-gray-300 text-gray-700">
+        <div class="flex-1 flex flex-col">
+          <span>Calories</span>
+          <span class="text-gray-900 font-bold"><input formControlName="calories" type="number" /></span>
+        </div>
+        <div class="flex-1 flex flex-col">
+          <span>Protéines</span>
+          <span class="text-gray-900 font-bold">
+            <input formControlName="proteins" type="number" />
+            /100g
+          </span>
+        </div>
+        <div class="flex-1 flex flex-col">
+          <span>Glucides</span>
+          <span class="text-gray-900 font-bold">
+            <input formControlName="carbohydrates" type="number" />
+            /100g
+          </span>
+        </div>
+        <div class="flex-1 flex flex-col">
+          <span>Lipides</span>
+          <span class="text-gray-900 font-bold">
+            <input formControlName="lipids" type="number" />
+            /100g
+          </span>
+        </div>
+        <button mat-raised-button color="primary" [disabled]="itemForm.invalid" class="self-end" (click)="saveItem()">
+          <i class="fa-solid fa-floppy-disk"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+  <div
+    *ngFor="let item of items()"
+    class="max-w-sm w-full flex flex-col mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
+  >
+    <div class="flex justify-center">
+      <img [src]="item.image ?? 'assets/placeholder.png'" alt="{{ item.name }}" class="w-full h-64 object-cover" />
+    </div>
+    <div class="p-4">
+      <p class="uppercase tracking-wide text-sm font-bold text-gray-700">{{ item.name }}</p>
+      <div class="flex mt-2 w-full justify-between items-center">
+        <p class="text-lg font-semibold text-gray-900">{{ item.calories }} calories</p>
+        <p class="text-lg font-semibold text-gray-900">
+          {{ item.price }}
+          <span class="text-sm">€/{{ item.type === ItemType.WEIGHT ? 'kg' : 'p.' }}</span>
+        </p>
+      </div>
+    </div>
+    <div class="flex justify-between p-2 border-t border-gray-300 text-gray-700">
+      <div class="flex-1 flex flex-col items-center">
+        <span class="text-gray-900 font-bold">{{ item.proteins }}g</span>
+        <span>Protéines</span>
+      </div>
+      <div class="flex-1 flex flex-col items-center">
+        <span class="text-gray-900 font-bold">{{ item.carbohydrates }}g</span>
+        <span>Glucides</span>
+      </div>
+      <div class="flex-1 flex flex-col items-center">
+        <span class="text-gray-900 font-bold">{{ item.lipids }}g</span>
+        <span>Lipides</span>
+      </div>
+    </div>
+  </div>
+</div>

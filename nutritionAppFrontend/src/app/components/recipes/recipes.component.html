@@ -1,0 +1,9 @@
+<div class="w-full flex justify-end items-center mb-8">
+  <button mat-raised-button color="primary" (click)="openAddRecipeDialog()">Ajouter une recette</button>
+</div>
+<app-recipes-list
+  [canLike]="true"
+  [recipes]="recipes()"
+  [selection]="selection()"
+  (updateSelection)="updateSelection($event)"
+/>

@@ -1,0 +1,14 @@
+<div class="flex flex-col gap-6">
+  <div *ngIf="menu?.breakfasts?.length" class="flex flex-col gap-2">
+    <span class="text-xl font-semibold">Petit-déjeuners</span>
+    <app-recipes-list [recipes]="menu.breakfasts" />
+  </div>
+  <div *ngIf="menu?.meals?.length" class="flex flex-col gap-2">
+    <span class="text-xl font-semibold">Repas</span>
+    <app-recipes-list [recipes]="menu.meals" />
+  </div>
+  <div *ngIf="menu?.collations?.length" class="flex flex-col gap-2">
+    <span class="text-xl font-semibold">Collations</span>
+    <app-recipes-list [recipes]="menu.collations" />
+  </div>
+</div>

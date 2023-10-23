@@ -1,0 +1,16 @@
+<form class="flex gap-3 items-center" [formGroup]="menuCreationForm">
+  <mat-form-field>
+    <mat-label>Petit-déjeuners</mat-label>
+    <input matInput type="number" placeholder="0" [formControl]="menuCreationForm.breakfastsCount" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Repas</mat-label>
+    <input matInput type="number" placeholder="0" [formControl]="menuCreationForm.mealsCount" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Collations</mat-label>
+    <input matInput type="number" placeholder="0" [formControl]="menuCreationForm.collationsCount" />
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="generateMenu()">Générer le Menu</button>
+</form>
+<app-menu-details [menu]="menu()" />
