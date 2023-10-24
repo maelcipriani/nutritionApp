@@ -1,4 +1,4 @@
-import { environment } from '../../environment';
+import {environment} from '../../environment';
 
 export interface ItemJson {
   id: number;
@@ -10,7 +10,8 @@ export interface ItemJson {
   lipids: number;
   carbohydrates: number;
   type: ItemType;
-  image: string;
+  image?: string;
+  image_url?: string;
 }
 
 export enum ItemType {
@@ -30,7 +31,8 @@ export class Item {
     public carbohydrates?: number,
     public type?: ItemType,
     public image?: string
-  ) {}
+  ) {
+  }
 
   toJson(): ItemJson {
     return {
@@ -58,7 +60,7 @@ export class Item {
       json.lipids,
       json.carbohydrates,
       json.type,
-      json.image
+      json.image_url
     );
   }
 }

@@ -9,17 +9,17 @@ from item.models import Item
 def convert(item: Item, quantity, value):
     print(item.type, quantity, value)
     if item.type == Item.ItemType.WEIGHT:
-        return quantity * value / 100
+        return round(quantity * value / 100, 2)
     if item.type == Item.ItemType.PORTION:
-        return quantity * value
+        return round(quantity * value, 2)
 
 
 def convert_price(item: Item, quantity, value):
     print(item.type, quantity, value)
     if item.type == Item.ItemType.WEIGHT:
-        return quantity * value / 1000
+        return round(quantity * value / 1000, 2)
     if item.type == Item.ItemType.PORTION:
-        return quantity * value
+        return round(quantity * value, 2)
 
 
 class RecipeType(models.TextChoices):
@@ -39,23 +39,23 @@ class Recipe(models.Model):
         default=RecipeType.MEAL
     )
     preparation_time = models.IntegerField(null=True)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    total_calories = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    total_proteins = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    total_lipids = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    total_carbohydrates = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    total_price = models.FloatField(null=True, blank=True)
+    total_calories = models.FloatField(null=True, blank=True)
+    total_proteins = models.FloatField(null=True, blank=True)
+    total_lipids = models.FloatField(null=True, blank=True)
+    total_carbohydrates = models.FloatField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.pk is not None:
-            self.total_price = sum([convert_price(i.item, i.quantity, i.item.price) for i in self.itemwithquantity_set.all()])
-            self.total_calories = sum(
-                [convert(i.item, i.quantity, i.item.calories) for i in self.itemwithquantity_set.all()])
-            self.total_proteins = sum(
-                [convert(i.item, i.quantity, i.item.proteins) for i in self.itemwithquantity_set.all()])
-            self.total_lipids = sum(
-                [convert(i.item, i.quantity, i.item.lipids) for i in self.itemwithquantity_set.all()])
-            self.total_carbohydrates = sum(
-                [convert(i.item, i.quantity, i.item.carbohydrates) for i in self.itemwithquantity_set.all()])
+            self.total_price = round(sum([convert_price(i.item, i.quantity, i.item.price) for i in self.itemwithquantity_set.all()]), 2)
+            self.total_calories = round(sum(
+                [convert(i.item, i.quantity, i.item.calories) for i in self.itemwithquantity_set.all()]), 2)
+            self.total_proteins = round(sum(
+                [convert(i.item, i.quantity, i.item.proteins) for i in self.itemwithquantity_set.all()]), 2)
+            self.total_lipids = round(sum(
+                [convert(i.item, i.quantity, i.item.lipids) for i in self.itemwithquantity_set.all()]), 2)
+            self.total_carbohydrates = round(sum(
+                [convert(i.item, i.quantity, i.item.carbohydrates) for i in self.itemwithquantity_set.all()]), 2)
         super().save(*args, **kwargs)
 
     objects = models.Manager()

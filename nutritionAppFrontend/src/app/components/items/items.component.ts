@@ -1,12 +1,12 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { Item, ItemType } from '../../models/item';
-import { ItemsService } from '../../services/items.service';
-import { finalize, tap } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ItemForm } from '../../forms/item.form';
+import {Component, OnInit, signal} from '@angular/core';
+import {Item, ItemType} from '../../models/item';
+import {ItemsService} from '../../services/items.service';
+import {finalize, tap} from 'rxjs';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {ReactiveFormsModule} from '@angular/forms';
+import {ItemForm} from '../../forms/item.form';
 
 @Component({
   standalone: true,
@@ -24,14 +24,14 @@ export class ItemsComponent implements OnInit {
 
   protected readonly ItemType = ItemType;
 
-  constructor(private itemService: ItemsService) {}
+  constructor(private itemService: ItemsService) {
+  }
 
   ngOnInit(): void {
     this.getItems();
   }
 
   saveItem(): void {
-    console.log(this.itemForm.toItem(), this.selectedFile);
     this.itemService
       .createItem(this.itemForm.toItem(), this.selectedFile)
       .pipe(

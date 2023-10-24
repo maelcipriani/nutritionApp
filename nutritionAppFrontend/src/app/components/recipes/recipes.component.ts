@@ -1,18 +1,17 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { Recipe } from '../../models/recipe';
-import { RecipesService } from '../../services/recipes.service';
-import { filter, switchMap, tap } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { CalculateItemPricePipe } from '../../pipes/calculate-item-price.pipe';
-import { RecipeCardComponent } from './recipe-card/recipe-card.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { AddRecipeDialogComponent, AddRecipeDialogResponse } from './add-recipe-dialog/add-recipe-dialog.component';
-import { RecipeForm } from '../../forms/recipe.form';
-import { SelectionService } from '../../services/selection.service';
-import { Selection } from '../../models/selection.model';
-import { IsInFilteredArrayPipe } from '../../pipes/is-in-filtered-array.pipe';
-import { RecipesListComponent } from './recipes-list/recipes-list.component';
+import {Component, OnInit, signal} from '@angular/core';
+import {Recipe} from '../../models/recipe';
+import {RecipesService} from '../../services/recipes.service';
+import {filter, switchMap, tap} from 'rxjs';
+import {CommonModule} from '@angular/common';
+import {CalculateItemPricePipe} from '../../pipes/calculate-item-price.pipe';
+import {RecipeCardComponent} from './recipe-card/recipe-card.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {AddRecipeDialogComponent, AddRecipeDialogResponse} from './add-recipe-dialog/add-recipe-dialog.component';
+import {SelectionService} from '../../services/selection.service';
+import {Selection} from '../../models/selection.model';
+import {IsInFilteredArrayPipe} from '../../pipes/is-in-filtered-array.pipe';
+import {RecipesListComponent} from './recipes-list/recipes-list.component';
 
 @Component({
   standalone: true,
@@ -39,7 +38,8 @@ export class RecipesComponent implements OnInit {
     private readonly recipesService: RecipesService,
     private readonly selectionService: SelectionService,
     private dialog: MatDialog
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.getRecipes();
@@ -54,7 +54,6 @@ export class RecipesComponent implements OnInit {
       .afterClosed()
       .pipe(
         filter(value => value),
-        tap(value => console.log(value)),
         switchMap((value: AddRecipeDialogResponse) =>
           this.recipesService.createRecipe(value.form.toRecipe()).pipe(
             switchMap(recipe => {
@@ -91,7 +90,6 @@ export class RecipesComponent implements OnInit {
       .pipe(
         tap(selection => {
           this.selection.set(selection);
-          console.log(this.selection());
         })
       )
       .subscribe();

@@ -1,36 +1,37 @@
 <div class="relative w-full h-full rounded-xl flex items-end shadow-2xl">
-  <img class="absolute left-0 top-0 w-full h-full rounded-xl object-cover" [src]="recipe?.image" alt="" />
-  <i
-    *ngIf="canLike"
-    [ngClass]="isLiked ? 'fa-solid' : 'fa-regular'"
-    class="top-3 right-4 absolute text-xl cursor-pointer text-white shadow-2xl fa-heart hover:scale-125 transition-all"
-    (click)="emitUpdateSelection()"
-  ></i>
-  <div class="recipe-stats-background rounded-b-xl"></div>
-  <div class="flex recipe-stats p-5 pb-8 justify-between text-gray-100 w-full z-10">
-    <div class="flex flex-col gap-1 w-7/12">
-      <span class="text-xl font-bold">{{ recipe.name }}</span>
-      <div class="flex gap-1 items-center">
-        <i class="fa-solid fa-coins"></i>
-        <span class="text-xl font-semibold">{{ recipe.totalPrice }} €</span>
-      </div>
-    </div>
-    <div class="flex flex-col gap-3">
-      <span class="text-end text-lg font-medium">Pour 100g</span>
-      <div class="flex gap-2">
-        <div class="flex flex-col items-center gap-2">
-          <i class="fa-solid fa-fire"></i>
-          <i class="fa-solid fa-drumstick-bite"></i>
-          <i class="fa-solid fa-candy-cane"></i>
-          <i class="fa-solid fa-bottle-droplet"></i>
+    <img class="absolute left-0 top-0 w-full h-full rounded-xl object-cover" [src]="recipe?.image" alt=""/>
+    <i
+            *ngIf="canLike"
+            [ngClass]="isLiked ? 'fa-solid' : 'fa-regular'"
+            class="top-3 right-4 absolute text-xl cursor-pointer text-white shadow-2xl fa-heart hover:scale-125 transition-all"
+            (click)="emitUpdateSelection()"
+    ></i>
+    <div class="recipe-stats-background rounded-b-xl"></div>
+    <div class="flex recipe-stats p-5 pb-8 justify-between text-gray-100 w-full z-10">
+        <div class="flex flex-col w-7/12">
+            <span class="text-xl font-bold">{{ recipe.name }}</span>
+            <span class="text-sm font-medium italic">{{ recipe.recipeType | recipeType }}</span>
+            <div class="flex mt-2  gap-1 items-center">
+                <i class="fa-solid fa-coins"></i>
+                <span class="text-xl font-semibold">{{ recipe.totalPrice }} €</span>
+            </div>
         </div>
-        <div class="flex flex-col items-end gap-2">
-          <span class="leading-none">{{ recipe.totalCalories | number }}kcal</span>
-          <span class="leading-none">{{ recipe.totalProteins }}g</span>
-          <span class="leading-none">{{ recipe.totalCarbohydrates }}g</span>
-          <span class="leading-none">{{ recipe.totalLipids }}g</span>
+        <div class="flex flex-col gap-3">
+            <span class="text-end text-lg font-medium">Apports nutri.</span>
+            <div class="flex gap-2">
+                <div class="flex flex-col items-center gap-2">
+                    <i class="fa-solid fa-fire"></i>
+                    <i class="fa-solid fa-drumstick-bite"></i>
+                    <i class="fa-solid fa-candy-cane"></i>
+                    <i class="fa-solid fa-bottle-droplet"></i>
+                </div>
+                <div class="flex flex-col items-end gap-2">
+                    <span class="leading-none">{{ recipe.totalCalories | number }}kcal</span>
+                    <span class="leading-none">{{ recipe.totalProteins }}g</span>
+                    <span class="leading-none">{{ recipe.totalCarbohydrates }}g</span>
+                    <span class="leading-none">{{ recipe.totalLipids }}g</span>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

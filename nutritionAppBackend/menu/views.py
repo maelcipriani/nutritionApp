@@ -18,6 +18,11 @@ class MenuViewSet(viewsets.ModelViewSet):
     serializer_class = MenuSerializer
     queryset = Menu.objects.all()
 
+    def get_queryset(self):
+        data = self.queryset
+
+        return data.order_by('-id')[:3]
+
     def get_serializer_context(self):
         return {'request': self.request}
 
@@ -37,23 +42,25 @@ def generate_shopping_list(self, menu_id):
 
         # Considering the item type for price calculation
         if item.type == Item.ItemType.WEIGHT:
-            quantity /= 1000  # Since the price is given for 1000
-        price = item.price * quantity
+            price = item.price * quantity / 1000  # Since the price is given for 1000
+        else:
+            price = item.price * quantity
 
+        print(price)
         if item.id in grouped_items:
             grouped_items[item.id]['quantity'] += quantity
             grouped_items[item.id]['total_price'] += price
         else:
             grouped_items[item.id] = {
-                'item': ItemWithQuantityReadSerializer(item_with_quantity).data,
-                'quantity': quantity,
+                'item': ItemWithQuantityReadSerializer(item_with_quantity).data.pop('item'),
+                'quantity': round(quantity, 2),
                 'total_price': price
             }
         total_price += price
 
     response_data = {
         'shopping_list': grouped_items.values(),
-        'total_price': total_price
+        'total_price': round(total_price, 2)
     }
 
     return Response(response_data, status=status.HTTP_200_OK)

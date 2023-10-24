@@ -1,9 +1,10 @@
-import { Item, ItemJson } from './item';
-import { RecipeType } from '../enums/recipe-type.enum';
+import {Item, ItemJson} from './item';
+import {RecipeType} from '../enums/recipe-type.enum';
 
 export interface ItemWithQuantityJson {
   item: ItemJson;
   quantity: number;
+  total_price?: number;
 }
 
 export interface ItemWithQuantityJsonSerialized {
@@ -14,8 +15,10 @@ export interface ItemWithQuantityJsonSerialized {
 export class ItemWithQuantity {
   constructor(
     public item?: Item,
-    public quantity?: number
-  ) {}
+    public quantity?: number,
+    public totalPrice?: number
+  ) {
+  }
 
   toJson(): ItemWithQuantityJsonSerialized {
     return {
@@ -25,7 +28,7 @@ export class ItemWithQuantity {
   }
 
   static fromJson(json: ItemWithQuantityJson): ItemWithQuantity {
-    return new ItemWithQuantity(Item.fromJson(json.item), json.quantity);
+    return new ItemWithQuantity(Item.fromJson(json.item), json.quantity, json.total_price);
   }
 }
 
@@ -64,7 +67,8 @@ export class Recipe {
     public totalLipids?: number,
     public totalCarbohydrates?: number,
     public image?: string
-  ) {}
+  ) {
+  }
 
   toJson(): RecipeJsonSerialized {
     return {

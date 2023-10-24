@@ -1,10 +1,11 @@
-import { Recipe, RecipeJson } from './recipe';
+import {Recipe, RecipeJson} from './recipe';
 
 export interface MenuJson {
   id?: number;
   breakfasts?: RecipeJson[];
   meals?: RecipeJson[];
   collations?: RecipeJson[];
+  created_at?: string;
 }
 
 export interface MenuJsonSerialized {
@@ -18,15 +19,18 @@ export class Menu {
     public id: number,
     public breakfasts: Recipe[],
     public meals: Recipe[],
-    public collations: Recipe[]
-  ) {}
+    public collations: Recipe[],
+    public createdAt: Date
+  ) {
+  }
 
   static fromJson(json: MenuJson): Menu {
     return new Menu(
       json.id,
       json.breakfasts.map((recipe: any) => Recipe.fromJson(recipe)),
       json.meals.map((recipe: any) => Recipe.fromJson(recipe)),
-      json.collations.map((recipe: any) => Recipe.fromJson(recipe))
+      json.collations.map((recipe: any) => Recipe.fromJson(recipe)),
+      new Date(json.created_at)
     );
   }
 

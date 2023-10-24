@@ -1,0 +1,43 @@
+<div class="rounded-xl flex items-stretch">
+  <div class="flex flex-col p-6 gap-8">
+    <div class="flex flex-col">
+      <span class="text-lg font-semibold">Créé le {{ menu.createdAt | date : "dd/MM/YYY" }}</span>
+      <span class="text-sm mb-2 font-medium">Maël Cipriani</span>
+      <button mat-raised-button color="primary" (click)="emitOpenShoppingListDialog(menu.id)"><i
+        class="fa-solid fa-clipboard-list"></i> Liste de courses
+      </button>
+    </div>
+    <div class="flex flex-col">
+      <div class="flex gap-1 items-center text-md font-medium"><i
+        class="fa-solid fa-mug-saucer"></i> {{menu.breakfasts.length}} Petit(s) déjeuner(s)
+      </div>
+      <div class="flex gap-1 items-center text-md font-medium"><i class="fa-solid fa-burger"></i>{{menu.meals.length}}
+        Repas
+      </div>
+      <div class="flex gap-1 items-center text-md font-medium"><i
+        class="fa-solid fa-apple-whole"></i> {{menu.collations.length}} Collation(s)
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col flex-1 p-6 gap-8 border-l-2 border-gray-300 items-center">
+    <div class="flex items-center gap-1 font-semibold text-xl"><i
+      class="fa-solid fa-mug-saucer"></i> {{menu.breakfasts.length}}</div>
+    <div class="flex gap-1 flex-col items-center">
+      <span class="text-md font-medium" *ngFor="let stat of menu.breakfasts | nutritionSummary">{{stat}}</span>
+    </div>
+  </div>
+  <div class="flex flex-col flex-1 p-6 gap-8 border-l-2 border-gray-300 items-center">
+    <div class="flex items-center gap-1 font-semibold text-xl"><i class="fa-solid fa-burger"></i>
+      {{menu.meals.length}}</div>
+    <div class="flex gap-1 flex-col items-center">
+      <span class="text-md font-medium" *ngFor="let stat of menu.meals | nutritionSummary">{{stat}}</span>
+    </div>
+  </div>
+  <div class="flex flex-col flex-1 p-6 gap-8 border-l-2 border-gray-300 items-center">
+    <div class="flex items-center gap-1 font-semibold text-xl"><i
+      class="fa-solid fa-apple-whole"></i> {{menu.collations.length}}</div>
+    <div class="flex gap-1 flex-col items-center">
+      <span class="text-md font-medium" *ngFor="let stat of menu.collations | nutritionSummary">{{stat}}</span>
+    </div>
+  </div>
+</div>
