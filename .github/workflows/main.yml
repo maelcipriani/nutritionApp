@@ -1,0 +1,40 @@
+name: Deploy to OVH VPS
+
+on:
+  push:
+    branches:
+      - main  # Adjust this if you're deploying from a different branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install SSH Client
+      run: sudo apt-get install -y openssh-client
+
+    - name: Setup SSH Key and Set SSH Strict Host Checking to No
+      run: |
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
+        chmod 600 private_key
+        echo "Host *" >> ~/.ssh/config
+        echo "  IdentityFile $(pwd)/private_key" >> ~/.ssh/config
+        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+
+    - name: Transfer Project to OVH VPS
+      run: rsync -av --delete ./nutritionAppBackend/ ubuntu@51.77.203.206:/var/www/vps/
+
+    - name: Install and Setup Project on VPS
+      run: |
+        ssh [username]@[your-vps-ip] <<'ENDSSH'
+        cd /path/on/vps/your_project_folder
+        source venv/bin/activate
+        pip install -r requirements.txt
+        python manage.py migrate
+        # Restart services like Gunicorn and Nginx if needed
+        sudo systemctl restart gunicorn
+        sudo systemctl restart nginx
+        ENDSSH
