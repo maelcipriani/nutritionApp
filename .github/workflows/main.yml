@@ -18,11 +18,13 @@ jobs:
 
     - name: Setup SSH Key and Set SSH Strict Host Checking to No
       run: |
+        mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
         chmod 600 private_key
         echo "Host *" >> ~/.ssh/config
         echo "  IdentityFile $(pwd)/private_key" >> ~/.ssh/config
         echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+        chmod 600 ~/.ssh/config
 
     - name: Transfer Project to OVH VPS
       run: rsync -av --delete ./nutritionAppBackend/ ubuntu@51.77.203.206:/var/www/vps/
