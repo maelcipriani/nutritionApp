@@ -1,0 +1,30 @@
+name: Deploy DRF Backend to OVH VPS
+
+on:
+  push:
+    branches:
+      - main # or whichever branch you want to deploy from
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Rsync backend directory and Deploy to VPS using SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          scp -r nutritionAppBackend/ ubuntu@51.77.203.206:/var/www/backend/          
+          cd /var/www/backend
+          apt install python3-virtualenv
+          virtualenv venv
+          source venv/bin/activate # Activate virtual environment if you're using one.
+          pip install -r requirements.txt # Install dependencies.
+          python manage.py migrate # Apply migrations.
+          # Restart your server, e.g., 
+          systemctl restart gunicorn
