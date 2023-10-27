@@ -27,12 +27,12 @@ jobs:
         chmod 600 ~/.ssh/config
 
     - name: Transfer Project to OVH VPS
-      run: rsync -av --delete ./nutritionAppBackend/ ubuntu@51.77.203.206:/var/www/vps/
+      run: rsync -av --delete ./nutritionAppBackend/ ubuntu@51.77.203.206:/var/www/backend/
 
     - name: Install and Setup Project on VPS
       run: |
-        ssh [username]@[your-vps-ip] <<'ENDSSH'
-        cd /path/on/vps/your_project_folder
+        ssh ubuntu@51.77.203.206 <<'ENDSSH'
+        cd /var/www/backend/
         source venv/bin/activate
         pip install -r requirements.txt
         python manage.py migrate
