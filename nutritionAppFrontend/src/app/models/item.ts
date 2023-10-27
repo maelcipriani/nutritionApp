@@ -1,5 +1,3 @@
-import {environment} from '../../environment';
-
 export interface ItemJson {
   id: number;
   created: string;

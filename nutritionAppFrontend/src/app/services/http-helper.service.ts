@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpHelperService {
-  constructor() {}
+  constructor() {
+  }
 
   initFormData(obj: any, file?: File): FormData {
     const formData = new FormData();
@@ -12,13 +13,11 @@ export class HttpHelperService {
     Object.keys(obj).forEach(key => {
       if (obj[key] !== null && obj[key] !== undefined) {
         let value = obj[key];
-        console.log(value, typeof value);
         if (typeof value !== 'object') {
           value = value.toString();
         } else {
           value = obj[key];
         }
-        console.log(value, typeof value);
 
         formData.append(key, value);
       }
@@ -27,7 +26,6 @@ export class HttpHelperService {
     if (file) {
       formData.append('image', file, file.name);
     }
-    console.log(formData);
     return formData;
   }
 }
