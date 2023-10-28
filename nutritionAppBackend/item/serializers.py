@@ -12,7 +12,8 @@ class ItemSerializer(serializers.ModelSerializer):
 
     def get_image_url(self, obj) -> str:
         if obj.image and hasattr(obj.image, 'url'):
-            print(obj.image.url)
-            return f'http://127.0.0.1:8000{obj.image.url}'
+            request = self.context.get('request')
+            base_url = request.build_absolute_uri('/')[:-1]  # Remove trailing slash
+            return f'{base_url}{obj.image.url}'
         else:
             return ''
